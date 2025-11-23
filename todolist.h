@@ -45,7 +45,7 @@ int dequeue(Queue* q, Task* outTask);
 void freeQueue(Queue* q);
 
 // Interface function(s)
-void mainMenu(void);
+void mainMenu(const char *username);
 
 #endif
 
