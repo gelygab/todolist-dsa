@@ -56,7 +56,7 @@ void mainMenu(const char *username) {
         printf("\n[3] Mark Task as Complete");
         printf("\n[4] Undo Task Completion");
         printf("\n[5] Exit\n");
-        
+
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
         center_line("=========================================", console_width);
 
@@ -97,7 +97,7 @@ void mainMenu(const char *username) {
 
             case 3:
             displayTasks(activeList);
-            printf("Enter Task ID of completed task: ");
+            printf("\nEnter Task ID of completed task: ");
             scanf("%d", &taskId);
             Task* taskToMove = findTask(activeList, taskId);
             if (taskToMove != NULL) {

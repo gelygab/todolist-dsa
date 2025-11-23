@@ -165,22 +165,22 @@ void displayCompletedTasks(StackNode* top) {
     StackNode* temp = top;
     char* priorityString;
 
+    printf("\nCompleted Tasks:\n");
+    printf("ID\tPriority\tTitle\n");
+
     while (temp != NULL) {
         switch (temp->task.priority) {
-            case 0: priorityString = "LOW";
+            case 0: priorityString = "Low";
             break;
-            case 1: priorityString = "MEDIUM";
+            case 1: priorityString = "Medium";
             break;
-            case 2: priorityString = "HIGH";
+            case 2: priorityString = "High";
             break;
             default: priorityString = "UNDEFINED";
             break;
+        }
+            printf("%d\t%s\t\t%s\n", 
+                temp->task.id, priorityString, temp->task.title);
+            temp = temp->next;
     }
-        printf("Completed Tasks:\n");
-        printf("ID\tPriority\tTitle\n");
-        printf("%d\t%s\t\t%s\n", 
-            temp->task.id, priorityString, temp->task.title);
-        temp = temp->next;
-
-    };
 }
