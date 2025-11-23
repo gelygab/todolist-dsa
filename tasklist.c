@@ -4,14 +4,13 @@
 #include "todolist.h"
 
 // Adds a new task to the linked list
-Task* addTask(Task* head, const char* title, Priority priority) {
+Task* addTask(Task* head, int id, const char* title, Priority priority) {
     Task* newTask = (Task*)malloc(sizeof(Task));
-    static int id_counter = 1;
     if (!newTask) {
         printf("Memory allocation failed.\n");
         return head;
     }
-    newTask->id = id_counter++;
+    newTask->id = id++;
     strncpy(newTask->title, title, sizeof(newTask->title) - 1);
     newTask->title[sizeof(newTask->title) - 1] = '\0';
     newTask->priority = priority;
@@ -184,3 +183,23 @@ void displayCompletedTasks(StackNode* top) {
             temp = temp->next;
     }
 }
+
+void displayPrioTasks(Queue* q) {
+    QueueNode* temp = q->front;
+    printf("\nPriority Tasks:\n");
+    printf("ID\tPriority\tTitle\n");
+    while (temp) {
+        printf("%d\t%s\t\t%s\n", 
+            temp->task.id, 
+            temp->task.priority == HIGH ? "High":
+            temp->task.priority == MEDIUM ? "Medium" : "Low", 
+            temp->task.title);
+        temp = temp->next;
+    }
+}
+
+int getNextTaskId() {
+    static int next_id_counter = 1;
+    return next_id_counter++;
+}
+

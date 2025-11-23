@@ -53,9 +53,10 @@ void mainMenu(const char *username) {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
         printf("[1] Add Task");
         printf("\n[2] Display Tasks");
-        printf("\n[3] Mark Task as Complete");
-        printf("\n[4] Undo Task Completion");
-        printf("\n[5] Exit\n");
+        printf("\n[3] Process Next Urgent Task");
+        printf("\n[4] Mark Task as Complete");
+        printf("\n[5] Undo Task Completion");
+        printf("\n[6] Exit\n");
 
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
         center_line("=========================================", console_width);
@@ -63,7 +64,7 @@ void mainMenu(const char *username) {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
         printf("\nEnter your choice: ");
         int result = scanf("%d", &choice);
-        if (result != 1 || choice < 1 || choice > 5) {
+        if (result != 1 || choice < 1 || choice > 6) {
             if (result !=1) {
                 printf("Invalid input. Please enter a number.\n");
                 while (getchar() != '\n');
@@ -76,6 +77,8 @@ void mainMenu(const char *username) {
             while (getchar() != '\n');
         }
         switch (choice) {
+
+            // Adding Tasks
             case 1:
             printf("Enter task: ");
             fgets(taskTitle, 100, stdin);
@@ -86,16 +89,41 @@ void mainMenu(const char *username) {
             if (result != 1 || taskPriority < 0 || taskPriority > 2) {
                 printf("Invalid input. Please enter a number within range.\n");
             } else {
-                activeList = addTask(activeList, taskTitle, (Priority)taskPriority);
-                printf("Task added successfully.\n");
+                Task newTask;
+                strcpy(newTask.title, taskTitle);
+                newTask.id = getNextTaskId();
+                newTask.priority = taskPriority;
+                if (taskPriority == 2) {
+                    enqueue(&priorityQueue, newTask);
+                    printf("Task added to high-priority queue successfully.\n");
+                }
+                else if (taskPriority == 0 || taskPriority == 1) {
+                    activeList = addTask(activeList, newTask.id, taskTitle, (Priority)taskPriority);
+                    printf("Task added to active list successfully.\n");
+                }
             }
             break;
 
+            // Displaying Tasks
             case 2:
+            displayPrioTasks(&priorityQueue);
             displayTasks(activeList);
             break;
 
+            // Processing Urgent Tasks (FIFO) 
             case 3:
+            displayPrioTasks(&priorityQueue);
+            printf("\nProcessing next urgent task...\n");
+            if (dequeue(&priorityQueue, &retrievedTask)) {
+                push(&completedStack, retrievedTask);
+                printf("Task marked as complete.\n");
+            } else {
+                printf("No priority tasks yet.\n");
+            }
+            break;
+ 
+            // Completing Tasks in Active List (By ID)
+            case 4:
             displayTasks(activeList);
             printf("\nEnter Task ID of completed task: ");
             scanf("%d", &taskId);
@@ -103,26 +131,31 @@ void mainMenu(const char *username) {
             if (taskToMove != NULL) {
                 push(&completedStack, *taskToMove);
                 activeList = removeTask(activeList, taskId);
-                printf("Task marked as complete.\n");
                 displayCompletedTasks(completedStack);
             } else {
                 printf("Task ID not found.");
             }
             break;
 
-            case 4: 
-            printf("\nCompleted Tasks:\n");
+            // Undoing Task Completion
+            case 5: 
             displayCompletedTasks(completedStack);
             if (pop(&completedStack, &retrievedTask)) {
                 printf("Undoing recently completed task...\n");
-                activeList = addTask(activeList, retrievedTask.title, (Priority)retrievedTask.priority);
-                printf("Undid completion for task: %s\n", retrievedTask.title);   
+                if (retrievedTask.priority == 2) {
+                    enqueue(&priorityQueue, retrievedTask);
+                    printf("Undid completion for task: %s\n", retrievedTask.title);
+                } else if (retrievedTask.priority == 0 || retrievedTask.priority == 1) {
+                    activeList = addTask(activeList, retrievedTask.id, retrievedTask.title, (Priority)retrievedTask.priority);
+                    printf("Undid completion for task: %s\n", retrievedTask.title);   
+                }
             } else {
                 printf("No completed tasks yet.\n");
             }
             break;
 
-            case 5:
+            // Exiting
+            case 6:
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("Exiting program...");
             SetConsoleTextAttribute(h, saved_attributes);

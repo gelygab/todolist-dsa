@@ -11,7 +11,7 @@ typedef struct Task {
 } Task;
 
 // Linked List APIs
-Task* addTask(Task* head, const char* title, Priority priority);
+Task* addTask(Task* head, int id, const char* title, Priority priority);
 void displayTasks(Task* head);
 Task* removeTask(Task* head, int id);
 Task* findTask(Task* head, int id);
@@ -43,6 +43,8 @@ typedef struct Queue {
 void enqueue(Queue* q, Task task);
 int dequeue(Queue* q, Task* outTask);
 void freeQueue(Queue* q);
+void displayPrioTasks(Queue* q);
+int getNextTaskId();
 
 // Interface function(s)
 void mainMenu(const char *username);
