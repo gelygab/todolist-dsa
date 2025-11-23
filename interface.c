@@ -50,14 +50,13 @@ void mainMenu(const char *username) {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
         center_text("\n========== %s's TO-DO LIST ==========", console_width, username);
 
-        // SetConsoleTextAttribute(h, saved_attributes);
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-
         printf("[1] Add Task");
         printf("\n[2] Display Tasks");
         printf("\n[3] Mark Task as Complete");
         printf("\n[4] Undo Task Completion");
         printf("\n[5] Exit\n");
+        
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
         center_line("=========================================", console_width);
 
@@ -132,8 +131,8 @@ void mainMenu(const char *username) {
             freeQueue(&priorityQueue);
             return;
 
-            // default:
-            // printf("Invalid choice! Please try again.\n");
+            default:
+            break;        
         };
     }
 }

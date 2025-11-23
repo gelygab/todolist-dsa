@@ -66,7 +66,7 @@ void freeTaskList(Task* head) {
     }
 }
 
-// Bubble sort hell yeah
+// Bubble sort
 void sortTasksByPriority(Task** head) {
     int swapped;
     Task *ptr1;
@@ -126,7 +126,7 @@ void freeStack(StackNode* top) {
     }
 }
 
-// Basic Queue (pd sha sa high-priority tasks ^_^ pagod na ko baby di ko na kaya)
+// Basic Queue
 void enqueue(Queue* q, Task task) {
     QueueNode* node = (QueueNode*)malloc(sizeof(QueueNode));
     if (!node) return;
@@ -160,7 +160,6 @@ void freeQueue(Queue* q) {
     }
     q->rear = NULL;
 }
-// ang masasabi ko lang ayyyy TITE im done im out BYEEEE
 
 void displayCompletedTasks(StackNode* top) {
     StackNode* temp = top;
