@@ -125,15 +125,19 @@ void mainMenu(const char *username) {
             // Completing Tasks in Active List (By ID)
             case 4:
             displayTasks(activeList);
-            printf("\nEnter Task ID of completed task: ");
-            scanf("%d", &taskId);
-            Task* taskToMove = findTask(activeList, taskId);
-            if (taskToMove != NULL) {
-                push(&completedStack, *taskToMove);
-                activeList = removeTask(activeList, taskId);
-                displayCompletedTasks(completedStack);
+            if (activeList) {
+                printf("\nEnter Task ID of completed task: ");
+                scanf("%d", &taskId);
+                Task* taskToMove = findTask(activeList, taskId);
+                if (taskToMove != NULL) {
+                    push(&completedStack, *taskToMove);
+                    activeList = removeTask(activeList, taskId);
+                    displayCompletedTasks(completedStack);
+                } else {
+                    printf("Task ID not found.");
+                }
             } else {
-                printf("Task ID not found.");
+                printf("No tasks in active list.\n");
             }
             break;
 
