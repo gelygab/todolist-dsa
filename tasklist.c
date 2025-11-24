@@ -160,6 +160,7 @@ void freeQueue(Queue* q) {
     q->rear = NULL;
 }
 
+// Display completed tasks from Active List and High-Prio Queue
 void displayCompletedTasks(StackNode* top) {
     StackNode* temp = top;
     char* priorityString;
@@ -184,6 +185,8 @@ void displayCompletedTasks(StackNode* top) {
     }
 }
 
+
+// Display high-priority task queue
 void displayPrioTasks(Queue* q) {
     QueueNode* temp = q->front;
     printf("\nPriority Tasks:\n");
