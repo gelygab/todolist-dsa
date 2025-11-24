@@ -16,7 +16,7 @@ void displayTasks(Task* head);
 Task* removeTask(Task* head, int id);
 Task* findTask(Task* head, int id);
 void freeTaskList(Task* head);
-void sortTasksByPriority(Task** head);
+void sortTasksById(Task** head);
 
 // Stack APIs (for completed tasks)
 typedef struct StackNode {

@@ -66,7 +66,7 @@ void freeTaskList(Task* head) {
 }
 
 // Bubble sort
-void sortTasksByPriority(Task** head) {
+void sortTasksById(Task** head) {
     int swapped;
     Task *ptr1;
     Task *lptr = NULL;
